@@ -1,0 +1,7 @@
+CREATE TABLE ELECTRONICS (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    imageUrl VARCHAR(255),
+    productName VARCHAR(255),
+    productDesc VARCHAR(255),
+    price DECIMAL(8, 2)
+);

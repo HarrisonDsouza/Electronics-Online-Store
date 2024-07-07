@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Just Buy - Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+        .product-form, .product-list {
+            margin-bottom: 20px;
+        }
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+        .product-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .product-name {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Just Buy - Admin</h1>
+    </header>
+    <div class="container">
+        <h2>Manage Products</h2>
+        <div class="product-form">
+            <form th:action="@{/admin/addProduct}" th:object="${product}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div>
+                    <label for="imageUrl">Image URL:</label>
+                    <input type="text" id="imageUrl" th:field="*{imageUrl}" />
+                </div>
+                <div>
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" th:field="*{productName}" />
+                </div>
+                <div>
+                    <label for="productDesc">Product Description:</label>
+                    <input type="text" id="productDesc" th:field="*{productDesc}" />
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="text" id="price" th:field="*{price}" />
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="product-list">
+            <div class="product-card" th:each="electronic : ${electronics}">
+                <img th:src="${electronic.imageUrl}" alt="Product Image" class="product-image">
+                <div class="product-name" th:text="${electronic.productName}">Product Name</div>
+                <div class="product-desc" th:text="${electronic.productDesc}">Product Description</div>
+                <div class="product-price" th:text="${electronic.price}">Price</div>
+                <a th:href="@{'/admin/editProduct/' + ${electronic.id}}">Edit</a> |
+                <a th:href="@{'/admin/deleteProduct/' + ${electronic.id}}">Delete</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Just Buy. All rights reserved.</p>
+    </footer>
+</body>
+</html>

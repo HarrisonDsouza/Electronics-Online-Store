@@ -1,7 +1,6 @@
-package ca.sheridancollege.dsouzhar.beans;
+package ca.sheridancollege.dsouzhar.personalprojectharrisondsouza.beans;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+
 
 import org.springframework.stereotype.Component;
 
@@ -12,10 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Electronic {
-    private long id;
+    private Long id;
     private String imageUrl;
     private String productName;
     private String productDesc;
     private float price;
-    private List<String> reviews = new CopyOnWriteArrayList<>();
 }
