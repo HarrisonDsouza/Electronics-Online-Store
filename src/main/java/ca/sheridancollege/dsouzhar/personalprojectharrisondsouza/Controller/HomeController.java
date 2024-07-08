@@ -1,7 +1,10 @@
 package ca.sheridancollege.dsouzhar.personalprojectharrisondsouza.Controller;
 
 import ca.sheridancollege.dsouzhar.personalprojectharrisondsouza.beans.Electronic;
+import ca.sheridancollege.dsouzhar.personalprojectharrisondsouza.beans.Review;
 import ca.sheridancollege.dsouzhar.personalprojectharrisondsouza.database.DatabaseAccess;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,26 @@ public class HomeController {
     public String index(Model model) {
         model.addAttribute("electronics", db.getProductsList());
         return "index";
+    }
+
+    @GetMapping("/productDetail/{productId}")
+    public String showProductDetail(@PathVariable Long productId, Model model) {
+        Electronic product = db.getProductById(productId).get(0);
+        List<Review> reviews = db.getReviewsByProductId(productId);
+        model.addAttribute("product", product);
+        model.addAttribute("reviews", reviews);
+        return "productDetail";
+    }
+
+    @PostMapping("/addReview/{productId}")
+    public String addReview(@PathVariable Long productId, @ModelAttribute Review review) {
+        review.setProductId(productId);
+        db.addReview(review);
+        return "redirect:/productDetail/" + productId;
+        // I wanted to return the same product detail page with the product ID. I
+        // couldn't do it the normal way. I learnt the above returning technique from
+        // stackoverflow -
+        // https://stackoverflow.com/questions/40880772/spring-boot-redirect-to-a-different-controller-method
     }
 
     @GetMapping("/admin")
@@ -54,4 +77,5 @@ public class HomeController {
         model.addAttribute("electronics", db.getProductsList());
         return "admin";
     }
+
 }

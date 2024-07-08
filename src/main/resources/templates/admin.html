@@ -1,99 +1,173 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Just Buy - Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header, footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1em;
-        }
-        .container {
-            flex: 1;
-            padding: 20px;
-        }
-        .product-form, .product-list {
-            margin-bottom: 20px;
-        }
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-        }
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 16px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: box-shadow 0.3s;
-        }
-        .product-card:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        .product-name {
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #f8f0e5;
+        color: #102c57;
+      }
+      header,
+      footer {
+        background-color: #102c57;
+        color: #f8f0e5;
+        text-align: center;
+        padding: 1em;
+      }
+      .container {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container h2 {
+        text-align: center;
+      }
+
+      .product-form {
+        align-self: center;
+        width: 100%;
+        max-width: 400px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        text-align: left;
+      }
+      .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+      }
+      .product-card {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 16px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+      .product-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .product-name {
+        font-size: 1.2em;
+        margin: 10px 0;
+      }
+      .product-info {
+        flex: 1;
+      }
+      .product-rating {
+        margin-top: auto;
+        font-weight: bold;
+      }
+      .product-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-family: "Roboto", sans-serif;
+        color: #102c57;
+      }
+      .product-form input,
+      .product-form textarea {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 12px;
+        font-family: "Roboto", sans-serif;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .product-form button {
+        padding: 12px 24px;
+        background-color: #102c57;
+        color: #f8f0e5;
+        border: none;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+      }
+      .product-form button:hover {
+        background-color: #dac0a3;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Just Buy - Admin</h1>
+      <h1>Just Buy - Admin</h1>
     </header>
     <div class="container">
-        <h2>Manage Products</h2>
-        <div class="product-form">
-            <form th:action="@{/admin/addProduct}" th:object="${product}" method="post">
-                <input type="hidden" th:field="*{id}"/>
-                <div>
-                    <label for="imageUrl">Image URL:</label>
-                    <input type="text" id="imageUrl" th:field="*{imageUrl}" />
-                </div>
-                <div>
-                    <label for="productName">Product Name:</label>
-                    <input type="text" id="productName" th:field="*{productName}" />
-                </div>
-                <div>
-                    <label for="productDesc">Product Description:</label>
-                    <input type="text" id="productDesc" th:field="*{productDesc}" />
-                </div>
-                <div>
-                    <label for="price">Price:</label>
-                    <input type="text" id="price" th:field="*{price}" />
-                </div>
-                <div>
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
-        </div>
-        <div class="product-list">
-            <div class="product-card" th:each="electronic : ${electronics}">
-                <img th:src="${electronic.imageUrl}" alt="Product Image" class="product-image">
-                <div class="product-name" th:text="${electronic.productName}">Product Name</div>
-                <div class="product-desc" th:text="${electronic.productDesc}">Product Description</div>
-                <div class="product-price" th:text="${electronic.price}">Price</div>
-                <a th:href="@{'/admin/editProduct/' + ${electronic.id}}">Edit</a> |
-                <a th:href="@{'/admin/deleteProduct/' + ${electronic.id}}">Delete</a>
+      <h2>Manage Products</h2>
+      <div class="product-form">
+        <form
+          th:action="@{/admin/addProduct}"
+          th:object="${product}"
+          method="post"
+        >
+          <input type="hidden" th:field="*{id}" />
+          <div>
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" th:field="*{productName}" />
+          </div>
+          <div>
+            <label for="productDesc">Product Description:</label>
+            <textarea id="productDesc" th:field="*{productDesc}"></textarea>
+          </div>
+          <div>
+            <label for="price">Price:</label>
+            <input type="text" id="price" th:field="*{price}" />
+          </div>
+          <div>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div class="product-list">
+        <div class="product-card" th:each="electronic : ${electronics}">
+          <div class="product-info">
+            <div class="product-name" th:text="${electronic.productName}">
+              Product Name
             </div>
+            <div class="product-desc" th:text="${electronic.productDesc}">
+              Product Description
+            </div>
+            <div
+              class="product-price"
+              th:text="${'Price: $' + electronic.price}"
+            >
+              Price
+            </div>
+          </div>
+          <div class="product-rating">
+            <span th:text="${'Rating: ' + electronic.rating}"></span>
+          </div>
+          <div>
+            <a th:href="@{'/admin/editProduct/' + ${electronic.id}}">Edit</a> |
+            <a th:href="@{'/admin/deleteProduct/' + ${electronic.id}}"
+              >Delete</a
+            >
+          </div>
         </div>
+      </div>
     </div>
     <footer>
-        <p>&copy; 2024 Just Buy. All rights reserved.</p>
+      <p>&copy; 2024 Just Buy. All rights reserved.</p>
     </footer>
-</body>
+  </body>
 </html>

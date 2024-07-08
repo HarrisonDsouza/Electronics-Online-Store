@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F0E5;
+            color: #102C57;
+        }
+        header, footer {
+            background-color: #102C57;
+            color: #F8F0E5;
+            text-align: center;
+            padding: 1em;
+        }
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+        .product-detail {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .product-name {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .product-desc {
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .product-rating {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #f39c12;
+        }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .review-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .review-form input[type="text"],
+        .review-form input[type="number"] {
+            padding: 8px;
+            margin: 0 5px;
+            width: 200px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .review-form button {
+            padding: 8px 20px;
+            background-color: #102C57;
+            color: #F8F0E5;
+            border: none;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+        }
+        .review-form button:hover {
+            background-color: #DAC0A3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Product Detail</h1>
+    </header>
+    <div class="container">
+        <div class="product-detail">
+            <div class="product-name" th:text="${product.productName}">Product Name</div>
+            <div class="product-desc" th:text="${product.productDesc}">Product Description</div>
+            <div class="product-price" th:text="'Price: $' + ${product.price}">Price</div>
+            <div class="product-rating" th:text="'Rating: ' + ${product.rating} + '/5'">Rating</div>
+        </div>
+        <div class="reviews">
+            <h3>Reviews</h3>
+            <div class="review-form">
+                <form th:action="@{'/addReview/' + ${product.id}}" method="post">
+                    <input type="text" name="userName" placeholder="Your Name" required/>
+                    <input type="number" name="reviewScore" min="1" max="5" step="0.1" placeholder="Rating (1-5)" required/>
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+            <div th:if="${reviews.isEmpty()}">
+                <p>No reviews yet.</p>
+            </div>
+            <div th:each="review : ${reviews}" class="review-item">
+                <p><strong th:text="${review.userName}"></strong>: <span th:text="${review.reviewScore} + '/5'"></span></p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Just Buy. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,19 +1,16 @@
 package ca.sheridancollege.dsouzhar.personalprojectharrisondsouza.beans;
 
-
-
 import org.springframework.stereotype.Component;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Component
 @Data
 @NoArgsConstructor
-public class Electronic {
+public class Review {
     private Long id;
-    private String productName;
-    private String productDesc;
-    private float price;
-    private float rating;
+    private Long productId;
+    private String userName;
+    private String userEmail;
+    private float reviewScore;
 }
