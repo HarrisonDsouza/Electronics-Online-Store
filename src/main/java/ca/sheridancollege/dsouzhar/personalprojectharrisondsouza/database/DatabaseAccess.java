@@ -65,12 +65,12 @@ public class DatabaseAccess {
 
     // Add a review for a product
     public void addReview(Review review) {
-        String query = "INSERT INTO REVIEWS (productId, userName, userEmail, reviewScore) VALUES (:productId, :userName, :userEmail, :reviewScore)";
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("productId", review.getProductId());
         namedParameters.addValue("userName", review.getUserName());
         namedParameters.addValue("userEmail", review.getUserEmail());
         namedParameters.addValue("reviewScore", review.getReviewScore());
+        String query = "INSERT INTO REVIEWS (productId, userName, userEmail, reviewScore) VALUES (:productId, :userName, :userEmail, :reviewScore)";
         jdbc.update(query, namedParameters);
 
         updateProductRating(review.getProductId());
@@ -78,15 +78,16 @@ public class DatabaseAccess {
 
     // Update product rating based on reviews
     private void updateProductRating(Long productId) {
-        String updateQuery = "UPDATE ELECTRONICS e SET rating = (SELECT AVG(reviewScore) FROM REVIEWS WHERE productId = :productId) WHERE e.id = :productId";
         MapSqlParameterSource namedParameters = new MapSqlParameterSource().addValue("productId", productId);
+        String updateQuery = "UPDATE ELECTRONICS e SET rating = (SELECT AVG(reviewScore) FROM REVIEWS WHERE productId = :productId) WHERE e.id = :productId";
         jdbc.update(updateQuery, namedParameters);
     }
 
+    // Retrieve a review by ID
     public List<Review> getReviewsByProductId(Long productId) {
-        String query = "SELECT * FROM reviews WHERE productId = :productId";
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("productId", productId);
+        String query = "SELECT * FROM reviews WHERE productId = :productId";
         return jdbc.query(query, namedParameters, new BeanPropertyRowMapper<>(Review.class));
     }
 }

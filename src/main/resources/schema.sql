@@ -13,6 +13,8 @@ CREATE TABLE REVIEWS (
     userEmail VARCHAR(255),
     reviewScore DECIMAL(2, 1),
     FOREIGN KEY (productId) REFERENCES ELECTRONICS(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 INSERT INTO electronics (productName, productDesc, price, rating)

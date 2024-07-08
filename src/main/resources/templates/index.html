@@ -67,7 +67,7 @@
                 <div class="product-name" th:text="${electronic.productName}">Product Name</div>
                 <div class="product-price" th:text="'$' + ${electronic.price}">Price</div>
                 <div class="product-rating" th:text="${electronic.rating} + '/5'">Rating</div>
-                <a th:href="@{/productDetail/{id}(id=${electronic.id})}">View Details</a>
+                <a th:href="@{'/productDetail/' + ${electronic.id}}">View Details</a>
             </div>
         </div>
     </div>
