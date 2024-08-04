@@ -1,27 +1,26 @@
-# Stage 1: Build the application
-FROM maven:3.8.6-eclipse-temurin-21 AS build
+# Use the latest Ubuntu image as the base for the build stage
+FROM ubuntu:latest AS build
 
-# Set the working directory
-WORKDIR /app
+# Update the package lists
+RUN apt-get update
 
-# Copy the pom.xml and download dependencies
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Install OpenJDK 21 and Maven
+RUN apt-get install openjdk-21-jdk maven -y
 
-# Copy the rest of the project files
-COPY src ./src
+# Copy the project files into the container
+COPY . .
 
-# Package the application
-RUN mvn clean package -DskipTests
+# Build the project using Maven
+RUN mvn clean package
 
-# Stage 2: Run the application
-FROM eclipse-temurin:21-jdk-jammy
+# Use a lightweight OpenJDK 21 image for the final stage
+FROM openjdk:21-jdk-slim
 
-# Expose the port the app runs on
+# Expose the port the application runs on
 EXPOSE 8080
 
-# Copy the jar file from the build stage
-COPY --from=build /app/target/*.jar app.jar
+# Copy the built JAR file from the build stage to the final image
+COPY --from=build /target/personalprojectharrisondsouza-0.0.1-SNAPSHOT.jar app.jar
 
-# Command to run the application
+# Set the entry point to run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
