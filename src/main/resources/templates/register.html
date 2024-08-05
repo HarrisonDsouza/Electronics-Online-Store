@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Register</h1>
+    <!-- Bind the form to the 'user' object using th:object -->
+    <form id="registerForm" action="/register" method="post" th:object="${user}">
+        <label for="email">Email:</label>
+        <!-- Bind the input field to the 'email' property using th:field -->
+        <input type="email" id="email" th:field="*{email}" required>
+        <label for="password">Password:</label>
+        <!-- Bind the input field to the 'encryptedPassword' property using th:field -->
+        <input type="password" id="password" th:field="*{encryptedPassword}" required>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login here</a></p>
+</body>
+</html>

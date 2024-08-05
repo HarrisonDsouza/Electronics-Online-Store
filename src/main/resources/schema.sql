@@ -17,6 +17,15 @@ CREATE TABLE REVIEWS (
     ON UPDATE CASCADE
 );
 
+CREATE TABLE users (
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    encrypted_password VARCHAR(255) NOT NULL,
+    enabled BOOLEAN NOT NULL,
+    role VARCHAR(255) NOT NULL
+);
+
+
 INSERT INTO electronics (productName, productDesc, price, rating)
 VALUES ('Xbox Series X', 'Next-gen gaming console by Microsoft, with 4K gaming capability and high-speed SSD.', 499, 0.0);
 
@@ -76,3 +85,7 @@ VALUES ('Nintendo Switch OLED Model', 'Upgraded version of the popular gaming co
 
 INSERT INTO electronics (productName, productDesc, price, rating)
 VALUES ('Alienware Aurora R12 Gaming Desktop', 'High-performance gaming desktop with Intel Core i7 processor and NVIDIA GeForce RTX 3080 GPU.', 1999, 0.0);
+
+
+INSERT INTO users (email, encrypted_password, enabled, role) VALUES
+('admin@example.com', '$2a$12$DQfSOJOVcwvQPfp3Pk05V.9p/1Q9aX/9Qy0HPd0RvBQda4xrE6hre', true, 'ROLE_ADMIN');
