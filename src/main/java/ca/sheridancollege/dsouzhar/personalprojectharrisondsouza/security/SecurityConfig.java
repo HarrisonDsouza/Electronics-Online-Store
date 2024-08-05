@@ -37,6 +37,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(mvc.pattern("/admin/**")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern("/h2-console")).hasRole("ADMIN")
                         .requestMatchers(mvc.pattern("/")).hasAnyRole("USER", "ADMIN")
                         .requestMatchers(mvc.pattern("/api/products")).permitAll()
                         .requestMatchers(mvc.pattern("/login")).permitAll()
@@ -68,7 +69,7 @@ public class SecurityConfig {
             if (user == null) {
                 throw new UsernameNotFoundException("User not found");
             }
-            // Use SimpleGrantedAuthority to set user roles
+            
             return org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
                     .password(user.getEncryptedPassword())
                     .authorities(new SimpleGrantedAuthority(user.getRole()))
